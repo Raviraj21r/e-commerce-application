@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaviShop - Your Ultimate Shopping Destination</title>
+    <link rel="stylesheet" href="style.css?v=mobile-polish-2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="container navbar">
+            <a href="#home" class="logo">SHOPMart</a>
+            <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav-links">
+                                <a href="#home">Home</a>
+                                <a href="#shop">Shop</a>
+                                <a href="#reviews">Reviews</a>
+                                <a href="#newsletter">Newsletter</a>
+                                <a href="orders.html">Orders</a>
+            </nav>
+            <div class="nav-icons">
+                <div class="wishlist-icon" id="wishlist-icon">
+                    <i class="far fa-heart"></i>
+                    <span class="count-badge" id="wishlist-count">0</span>
+                </div>
+                <div class="cart-icon" id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="count-badge" id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Welcome to ShopMart</h1>
+            <p>Your one-stop destination for all your needs.</p>
+        </div>
+    </section>
+ 
+
+    <section class="shop-section" id="shop">
+        <div class="container">
+            <div class="shop-header">
+                <h6 class="section-title">Featured Products</h6>
+                <div class="shop-controls">
+                    <div class="filter-options" id="filter-options">
+                        <button class="active" data-filter="all">All</button>
+                        <button data-filter="electronics">Electronics</button>
+                        <button data-filter="fashion">Fashion</button>
+                        <button data-filter="accessories">Accessories</button>
+        
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search products...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="product-grid" id="product-grid">
+                </div>
+        </div>
+    </section>
+
+    <section class="reviews-section" id="reviews">
+        <div class="container">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p>"The best online shopping experience I've had. The products are top-notch and the delivery was super fast!"</p>
+                    <p class="reviewer">- Ravi Kumar</p>
+                </div>
+                <div class="review-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"Excellent quality and customer service. I highly recommend MegaMart for all your needs."</p>
+                    <p class="reviewer">- ishwar kumar singh</p>
+                </div>
+                <div class="review-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+                    </div>
+                    <p>"A great selection of products at reasonable prices. The website is easy to navigate and very user-friendly."</p>
+                    <p class="reviewer">- Sujit Kumar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter-section" id="newsletter">
+        <div class="container newsletter-content">
+            <h2>Subscribe to Our Newsletter This Website</h2>
+            <p>Stay up to date with the latest products and special offers.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address..." required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+        </section>
+
+    <div id="product-modal" class="modal">
+        <div class="modal-content product-modal-content">
+            <span class="modal-close" id="product-modal-close">&times;</span>
+            <div class="product-modal-body" id="product-modal-body">
+                </div>
+        </div>
+    </div>
+    
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="cart-modal-close">&times;</span>
+            <h2>Your Cart</h2>
+            <div class="cart-modal-body" id="cart-modal-body">
+                </div>
+            <div class="cart-total" id="cart-total">Total: $0.00</div>
+            <button class="cart-checkout-btn">Checkout</button>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content checkout-content">
+            <span class="modal-close" id="checkout-modal-close">&times;</span>
+            <h2>Delivery Details</h2>
+            <p class="checkout-intro">Enter your address to continue to secure payment.</p>
+            <form id="checkout-form" class="checkout-form">
+                <label>Name<input name="name" type="text" autocomplete="name" required></label>
+                <label>Phone<input name="phone" type="tel" inputmode="tel" autocomplete="tel" pattern="[0-9]{10}" required></label>
+                <label>Pincode<input name="pincode" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{6}" required></label>
+                <label class="full-width">Address<textarea name="address" rows="3" autocomplete="street-address" required></textarea></label>
+                <label>City<input name="city" type="text" autocomplete="address-level2" required></label>
+                <label>State<input name="state" type="text" autocomplete="address-level1" required></label>
+                <button class="proceed-pay-btn full-width" type="submit">Proceed to Pay</button>
+                <p id="checkout-error" class="checkout-error" role="alert"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="order-confirmation" class="confirmation-screen" hidden></div>
+    
+    <div id="wishlist-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="wishlist-modal-close">&times;</span>
+            <h2>Your Wishlist</h2>
+            <div class="wishlist-modal-body" id="wishlist-modal-body">
+                </div>
+        </div>
+    </div>
+<footer class="footer">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:220px;">
+          <h1 style="color: #bff5ff;">RAVI KUMAR</h1>
+          <p style="color:#08dd48;">Frontend Developer & Software Engineer — crafting accessible, performant, and beautiful web experiences. Available for freelance & full-time roles.</p>
+        </div>
+
+        <div style="flex:1;min-width:220px;">
+          <h2 style="color:#bff5ff;">Quick Links</h2>
+          <div class="linksss">
+            <a href="#about">About</a>
+            <a href="https://raviraj21r.github.io/profilio/" target="_blank">Portfolio</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+
+        <div style="flex:1;min-width:220px;">
+          <h3 style="color:#c70c0c;">Subscribe</h3>
+          <p style="color:#9fcbe6;">Get updates when I publish a new project or blog.</p>
+          <div style="margin-top:8px ; display:flex; gap:8px;">
+            <input id="newsletter-email" type="email" placeholder="Enter your email" style="padding:8px;border-radius:8px;border:1px solid rgba(18, 116, 197, 0.05);background:transparent;color:#eaf6ff;" />
+            <button onclick="subscribeNews()" style="padding:8px 12px;border-radius:8px;border:none;background:#00eaff;color:#042a33;font-weight:700;">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #e8eef1; margin-top:18px;display:flex;justify-content:center;gap:16px;align-items:center;flex-wrap:wrap;">
+        <a class="social" href="https://github.com/raviraj21a" target="_blank" title="GitHub"><i class="fab fa-github fa-2x"></i></a>
+        <a class="social" href="https://linkedin.com/in/ravi-kumar-2b3284358" target="_blank" title="LinkedIn"><i class="fab fa-linkedin fa-2x"></i></a>
+        <a class="social" href="mailto:ravikrsingho68068@gmail.com" title="Email"><i class="fas fa-envelope fa-2x"></i></a>
+        <a class="social" href="https://instagram.com/mrraviraj9297" target="_blank" title="Instagram"><i class="fab fa-instagram fa-2x"></i></a>
+      </div>
+
+      <div style="margin-top:18px;color:#9fcbe6;">© 2025 Ravi Kumar• Built with HTML, CSS & JavaScript • <a href="#" style="color:#bff5ff;">Privacy</a> • <a href="#" style="color:#bff5ff;">Terms</a> • <a href="#" style="color:#bff5ff;">Sitemap</a></div>
+    </div>
+  </footer>
+    <script>
+    const products = [
+        { id: 1, name: "Stylish Backpack", price: 49.99, category: "accessories", image: "https://m.media-amazon.com/images/I/71E137by9DL._SX569_.jpg", description: "Durable backpack for daily use and travel." },
+        { id: 2, name: "Wireless Headphones", price: 89.99, category: "electronics", image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQF3ZEA9WMAOG9L2BzaUezQGZ5G2YYUy-Dyb6l5H27tyKO5asS9ZVHnMMJnl1hY2DwQUjx35sKkeMam8QuI189Va0I9MKIXxJFyi682w-GLF2c_TjsL9S3J", description: "Comfortable wireless headphones with good sound." },
+        { id: 3, name: "Men's Classic Watch", price: 129.99, category: "fashion", image: "https://m.media-amazon.com/images/I/61oQ6GmCeCL.SX679.jpg", description: "Timeless watch with leather strap." },
+        { id: 4, name: "Smart Fitness Tracker", price: 65.50, category: "electronics", image: "https://m.media-amazon.com/images/I/61EDq8HCXgL.AC_UY218.jpg", description: "Track steps, heart rate and sleep." },
+        { id: 5, name: "Professional Camera", price: 799.00, category: "electronics", image: "https://m.media-amazon.com/images/I/717phiicRTL.AC_UY218.jpg", description: "DSLR for high quality photos and video." },
+        { id: 6, name: "Vintage Leather Jacket", price: 150.00, category: "fashion", image: "https://m.media-amazon.com/images/I/61Q0xlCF8zL.SX679.jpg", description: "Classic leather jacket with vintage look." },
+        { id: 7, name: "Running Shoes", price: 75.00, category: "fashion", image: "https://m.media-amazon.com/images/I/61md3szAgLL.AC_UL320.jpg", description: "Lightweight shoes for daily runs." },
+        { id: 8, name: "Designer Sunglasses", price: 110.00, category: "accessories", image: "https://m.media-amazon.com/images/I/5133qEF+xgL.AC_UL320.jpg", description: "Stylish sunglasses with UV protection." },
+        { id: 9, name: "High-Performance Laptop", price: 1200.00, category: "electronics", image: "https://m.media-amazon.com/images/I/71LwIxMzWDL.AC_UY218.jpg", description: "Powerful laptop for work and gaming." },
+        { id: 10, name: "Travel Suitcase", price: 95.00, category: "accessories", image: "https://m.media-amazon.com/images/I/51ZXPZCZjNL.AC_UL320.jpg", description: "Durable suitcase with secure lock." },
+        { id: 11, name: "Formal Shirt", price: 45.00, category: "fashion", image: "https://m.media-amazon.com/images/I/71S4YNbDBML.SX569.jpg", description: "Crisp formal shirt for office and events." },
+        { id: 12, name: "Gaming Mouse", price: 70.00, category: "electronics", image: "https://m.media-amazon.com/images/I/61gTZK9as+L.AC_UY218.jpg", description: "Ergonomic mouse with customizable buttons." },
+        { id: 13, name: "Bluetooth Speaker", price: 3.00, category: "electronics", image: "https://m.media-amazon.com/images/I/418SigfmUnL.AC_UY218.jpg", description: "Portable speaker with rich sound." },
+        { id: 14, name: "Wireless Earbuds", price: 79.99, category: "electronics", image: "https://m.media-amazon.com/images/I/71SB8ivq4GL.AC_SR146,118_CB1169409_QL70.jpg", description: "Compact earbuds with long battery life." },
+        { id: 15, name: "Phone Charger (PD)", price: 19.99, category: "electronics", image: "https://m.media-amazon.com/images/I/41cgIlDBxCL.AC_UY218.jpg", description: "Fast PD charger for phones and tablets." },
+        { id: 16, name: "Tablet 10-inch", price: 299.00, category: "electronics", image: "https://m.media-amazon.com/images/I/71uBZhU+2uL.AC_UY218.jpg", description: "Light tablet for reading and streaming." },
+        { id: 17, name: "Leather Wallet", price: 29.99, category: "accessories", image: "https://m.media-amazon.com/images/I/710qQoa61SL.AC_UL320.jpg", description: "Slim leather wallet with multiple slots." },
+        { id: 18, name: "Travel Neck Pillow", price: 24.50, category: "accessories", image: "https://m.media-amazon.com/images/I/61ktHYSbSIL.AC_UL320.jpg", description: "Comfortable pillow for long trips." },
+        { id: 19, name: "Action Camera", price: 199.00, category: "electronics", image: "https://m.media-amazon.com/images/I/51IZ726J1TL.AC_UY218.jpg", description: "Compact action cam for sports and travel." },
+        { id: 20, name: "Smartwatch", price: 139.99, category: "electronics", image: "https://m.media-amazon.com/images/I/61rmkmqD5VL.AC_UY218.jpg", description: "Smartwatch with notifications & fitness modes." },
+        { id: 21, name: "Dress for Women", price: 59.99, category: "fashion", image: "https://m.media-amazon.com/images/I/61niQlE35rL.AC_UL320.jpg", description: "Elegant dress suitable for parties." },
+        { id: 22, name: "Denim Jeans", price: 49.99, category: "fashion", image: "https://m.media-amazon.com/images/I/61XkFk5rjeL.AC_UL320.jpg", description: "Comfortable slim-fit denim jeans." },
+        { id: 23, name: "Formal Shoes", price: 89.00, category: "fashion", image: "https://m.media-amazon.com/images/I/71rYxtbE8SS.AC_UL320.jpg", description: "Classic formal shoes for office wear." },
+        { id: 24, name: "Sports Helmet", price: 59.00, category: "accessories", image: "https://m.media-amazon.com/images/I/61fq5oZX-6L.AC_UL320.jpg", description: "Safety helmet for biking and sports." },
+        { id: 25, name: "Portable Hard Drive", price: 89.99, category: "electronics", image: "https://m.media-amazon.com/images/I/81hd9Zd+KbL.AC_UY218.jpg", description: "External HDD for backups and storage." },
+        { id: 26, name: "USB-C Hub", price: 34.99, category: "electronics", image: "https://m.media-amazon.com/images/I/51HQRgYE0bL.AC_UY218.jpg", description: "Multiport hub for laptops and tablets." },
+        { id: 27, name: "Camera Tripod", price: 39.99, category: "accessories", image: "https://m.media-amazon.com/images/I/51zvtBwm8iL.AC_UY218.jpg", description: "Stable tripod for photography." },
+        { id: 28, name: "DSLR Lens", price: 249.00, category: "electronics", image: "https://m.media-amazon.com/images/I/71jaXsf9v0L.AC_UY218.jpg", description: "High-quality lens for crisp images." },
+        { id: 29, name: "Necklace (Gold-Plated)", price: 79.00, category: "accessories", image: "https://m.media-amazon.com/images/I/512WmjGQ76L.AC_UL320.jpg", description: "Elegant gold-plated necklace." },
+        { id: 30, name: "Perfume (50ml)", price: 49.50, category: "accessories", image: "https://m.media-amazon.com/images/I/51hJGmzG9PL.AC_UL320.jpg", description: "Long-lasting fragrance for daily use." },
+        { id: 31, name: "Scented Candle Pack", price: 24.99, category: "accessories", image: "https://m.media-amazon.com/images/I/61OJQjTC9NL.AC_UL320.jpg", description: "Set of scented candles for home." },
+        { id: 32, name: "Kitchen Knife Set", price: 79.99, category: "accessories", image: "https://m.media-amazon.com/images/I/71uxKYmaWXL.AC_UL320.jpg", description: "Professional knife set for cooking." },
+        { id: 33, name: "Coffee Maker", price: 119.99, category: "electronics", image: "https://m.media-amazon.com/images/I/51GtRgKVprL.AC_UY218.jpg", description: "Brew quality coffee at home." },
+        { id: 34, name: "Blender", price: 59.99, category: "electronics", image: "https://m.media-amazon.com/images/I/71h+nwRmu2L.AC_UY218.jpg", description: "Powerful blender for smoothies." },
+        { id: 35, name: "Desk Lamp", price: 29.99, category: "accessories", image: "https://m.media-amazon.com/images/I/61K5ED35mfL.AC_UL320.jpg", description: "Adjustable lamp for study and office." },
+        { id: 36, name: "Office Chair", price: 149.00, category: "accessories", image: "https://m.media-amazon.com/images/I/71cUycZk-lL.AC_UL320.jpg", description: "Ergonomic chair for long working hours." },
+        { id: 37, name: "Monitor 27-inch", price: 239.00, category: "electronics", image: "https://m.media-amazon.com/images/I/719VRmDcdgL.AC_UY218.jpg", description: "High-resolution monitor for work & play." },
+        { id: 38, name: "Mechanical Keyboard", price: 129.00, category: "electronics", image: "https://m.media-amazon.com/images/I/61mwM6q4smL.AC_UY218.jpg", description: "Tactile mechanical keyboard with backlight." },
+        { id: 39, name: "Gaming Console", price: 399.00, category: "electronics", image: "https://m.media-amazon.com/images/I/61efJo-qxiS.AC_UL320.jpg", description: "Latest generation console for gaming." },
+        { id: 40, name: "Game Controller", price: 59.99, category: "electronics", image: "https://m.media-amazon.com/images/I/61ZMQy4ln1L.AC_UY218.jpg", description: "Comfortable controller for long play sessions." },
+        { id: 41, name: "Action Shoes", price: 69.99, category: "fashion", image: "https://m.media-amazon.com/images/I/51GpXqsREfL.AC_UL320.jpg", description: "Trendy sneakers for casual wear." },
+        { id: 42, name: "Winter Coat", price: 129.99, category: "fashion", image: "https://m.media-amazon.com/images/I/61cNeTckycL.AC_UL320.jpg", description: "Warm coat for cold weather." },
+        { id: 43, name: "Scarf & Gloves Set", price: 39.99, category: "accessories", image: "https://m.media-amazon.com/images/I/61U2e9LvYdL.AC_UL320.jpg", description: "Cozy set for winter." },
+        { id: 44, name: "Sewing Machine", price: 199.00, category: "electronics", image: "https://m.media-amazon.com/images/I/61Hh8cb-ysL.AC_UY218.jpg", description: "Easy-to-use home sewing machine." },
+        { id: 45, name: "Hair Dryer", price: 49.99, category: "electronics", image: "https://m.media-amazon.com/images/I/71NX37k4P6L.AC_UL320.jpg", description: "Fast-drying hair dryer with settings." },
+        { id: 46, name: "Makeup Kit", price: 59.99, category: "accessories", image: "https://m.media-amazon.com/images/I/61WsPPt4vYL.AC_UL320.jpg", description: "Complete kit for daily makeup." },
+        { id: 47, name: "Watch Strap (Leather)", price: 19.99, category: "accessories", image: "https://m.media-amazon.com/images/I/71MvRnz5WJL.AC_UL320.jpg", description: "Replacement leather strap for watches." },
+        { id: 48, name: "Yoga Mat", price: 29.99, category: "accessories", image: "https://m.media-amazon.com/images/I/515XXxNTDQL.AC_UL320.jpg", description: "Non-slip yoga mat for home workouts." },
+        { id: 49, name: "Protein Shaker", price: 14.99, category: "accessories", image: "https://m.media-amazon.com/images/I/61FVj4voS2L.AC_UL320.jpg", description: "Shaker bottle for protein mixes." },
+        { id: 50, name: "Camping Tent", price: 129.00, category: "accessories", image: "https://m.media-amazon.com/images/I/71lHjXFrDaL.AC_UL320.jpg", description: "Lightweight tent for 2-3 people." },
+        { id: 51, name: "Portable Projector", price: 219.00, category: "electronics", image: "https://m.media-amazon.com/images/I/71BoB+5wXXL.AC_UY218.jpg", description: "Project movies anywhere with this compact projector." },
+        { id: 52, name: "Wireless Router", price: 99.99, category: "electronics", image: "https://m.media-amazon.com/images/I/41Q04ArdEuL.AC_UY218.jpg", description: "High-speed router for home networks." },
+        { id: 53, name: "Smart Light Bulb", price: 19.99, category: "electronics", image: "https://m.media-amazon.com/images/I/71WLIU1EuBS.AC_UL320.jpg", description: "Energy-efficient smart bulb with app control." },
+        { id: 54, name: "Baby Stroller", price: 199.00, category: "accessories", image: "https://m.media-amazon.com/images/I/51VGJ5V68oL.AC_UY218.jpg", description: "Comfortable stroller with safety harness." },
+        { id: 55, name: "Kids Toy (Robot)", price: 34.99, category: "accessories", image: "https://m.media-amazon.com/images/I/61OVEWnV6zL.AC_UL320.jpg", description: "Interactive toy robot for kids." },
+        { id: 56, name: "Pet Bed", price: 39.99, category: "accessories", image: "https://m.media-amazon.com/images/I/61GNvEr0AAL.AC_UL320.jpg", description: "Comfortable bed for small pets." },
+        { id: 57, name: "Electric Kettle", price: 29.99, category: "electronics", image: "https://m.media-amazon.com/images/I/51Q11RNy8dL.AC_UY218.jpg", description: "Quick-boil kettle with auto shutoff." },
+        { id: 58, name: "Indoor Plant Pot", price: 24.99, category: "accessories", image: "https://m.media-amazon.com/images/I/71BTGOOVs8L.AC_UL320.jpg", description: "Decorative pot for indoor plants." },
+        { id: 59, name: "Fitness Resistance Bands", price: 19.99, category: "accessories", image: "https://m.media-amazon.com/images/I/71-87y93B+L.AC_UL320.jpg", description: "Set of bands for home workouts." },
+        { id: 60, name: "Electric Toothbrush", price: 49.99, category: "electronics", image: "https://m.media-amazon.com/images/I/613m-KT+wiL.AC_UL320.jpg", description: "Rechargeable toothbrush for better oral care." }
+    ];
+
+    let cart = [];
+    window.getCart = () => cart;
+    let wishlist = [];
+
+    // DOM Elements
+    const productGrid = document.getElementById('product-grid');
+    const cartCountEl = document.getElementById('cart-count');
+    const wishlistCountEl = document.getElementById('wishlist-count');
+    const cartIcon = document.getElementById('cart-icon');
+    const wishlistIcon = document.getElementById('wishlist-icon');
+    const cartModal = document.getElementById('cart-modal');
+    const productModal = document.getElementById('product-modal');
+    const wishlistModal = document.getElementById('wishlist-modal');
+    const cartModalCloseBtn = document.getElementById('cart-modal-close');
+    const productModalCloseBtn = document.getElementById('product-modal-close');
+    const wishlistModalCloseBtn = document.getElementById('wishlist-modal-close');
+    const cartModalBody = document.getElementById('cart-modal-body');
+    const cartTotalEl = document.getElementById('cart-total');
+    const wishlistModalBody = document.getElementById('wishlist-modal-body');
+    const filterButtons = document.querySelectorAll('#filter-options button');
+    const searchInput = document.getElementById('search-input');
+
+    // --- Modal Functions ---
+
+     // --- Modal Functions ---
+    function openModal(modal) {
+        if (modal) modal.classList.add('open');
+    }
+
+    function closeModal(modal) {
+        if (modal) modal.classList.remove('open');
+    }
+
+    function openProductModal(product) {
+        const modalBody = document.getElementById('product-modal-body');
+        modalBody.innerHTML = `
+            <div class="product-modal-image">
+                <img src="${product.image}" alt="${product.name}">
+            </div>
+            <div class="product-modal-info">
+                <h2>${product.name}</h2>
+                <p class="price">₹${product.price.toFixed(2)}</p>
+                <p class="description">${product.description}</p>
+                <button class="modal-add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+            </div>
+        `;
+        openModal(productModal);
+        document.querySelector('.modal-add-to-cart-btn').addEventListener('click', addToCart);
+    }
+
+    // --- Cart & Wishlist Logic ---
+    function addToCart(event) {
+        const productId = parseInt(event.target.dataset.id);
+        const product = products.find(p => p.id === productId);
+        const cartItem = cart.find(item => item.id === productId);
+
+        if (cartItem) {
+            cartItem.quantity++;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+        updateCartCount();
+        closeModal(productModal);
+    }
+
+    function removeFromCart(event) {
+        const productId = parseInt(event.target.dataset.id);
+        cart = cart.filter(item => item.id !== productId);
+        updateCartCount();
+        renderCart();
+    }
+
+    function updateQuantity(event) {
+        const productId = parseInt(event.target.dataset.id);
+        const action = event.target.dataset.action;
+        const item = cart.find(i => i.id === productId);
+
+        if (item) {
+            if (action === 'increase') item.quantity++;
+            else if (action === 'decrease') {
+                if (item.quantity > 1) item.quantity--;
+                else cart = cart.filter(i => i.id !== productId);
+            }
+        }
+        updateCartCount();
+        renderCart();
+    }
+
+    function addToWishlist(event) {
+        const productId = parseInt(event.target.dataset.id);
+        const product = products.find(p => p.id === productId);
+
+        if (product && !wishlist.find(item => item.id === productId)) {
+            wishlist.push(product);
+        }
+        updateWishlistCount();
+    }
+
+    function removeFromWishlist(event) {
+        const productId = parseInt(event.target.dataset.id);
+        wishlist = wishlist.filter(item => item.id !== productId);
+        updateWishlistCount();
+        renderWishlist();
+    }
+
+    function moveToCart(event) {
+        const productId = parseInt(event.target.dataset.id);
+        const product = wishlist.find(p => p.id === productId);
+
+        if (product) {
+            const cartItem = cart.find(item => item.id === productId);
+            if (cartItem) cartItem.quantity++;
+            else cart.push({ ...product, quantity: 1 });
+
+            wishlist = wishlist.filter(item => item.id !== productId);
+            updateCartCount();
+            updateWishlistCount();
+            renderWishlist();
+        }
+    }
+
+    function updateCartCount() {
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        if (cartCountEl) cartCountEl.textContent = totalItems;
+    }
+
+    function updateWishlistCount() {
+        if (wishlistCountEl) wishlistCountEl.textContent = wishlist.length;
+    }
+
+    // --- Rendering Functions ---
+    function renderProducts(filter = 'all', searchTerm = '') {
+        if (!productGrid) return;
+        productGrid.innerHTML = '';
+        let filteredProducts = products;
+
+        if (filter !== 'all') {
+            filteredProducts = filteredProducts.filter(p => p.category === filter);
+        }
+
+        if (searchTerm) {
+            filteredProducts = filteredProducts.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+
+        filteredProducts.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+            productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p class="product-price">₹${product.price.toFixed(2)}</p>
+                    <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+                    <button class="add-to-wishlist-btn" data-id="${product.id}">Add to Wishlist</button>
+                </div>
+            `;
+            productGrid.appendChild(productCard);
+        });
+
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => btn.addEventListener('click', addToCart));
+        document.querySelectorAll('.add-to-wishlist-btn').forEach(btn => btn.addEventListener('click', addToWishlist));
+        document.querySelectorAll('.product-card').forEach(card => card.addEventListener('click', (event) => {
+            if (!event.target.classList.contains('add-to-cart-btn') && !event.target.classList.contains('add-to-wishlist-btn')) {
+                const productId = card.querySelector('.add-to-cart-btn').dataset.id;
+                openProductModal(products.find(p => p.id == productId));
+            }
+        }));
+    }
+
+    function renderCart() {
+        if (!cartModalBody || !cartTotalEl) return;
+
+        if (cart.length === 0) {
+            cartModalBody.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty.</p>';
+            cartTotalEl.textContent = 'Total: ₹0.00';
+            return;
+        }
+
+        cartModalBody.innerHTML = '';
+        let total = 0;
+
+        cart.forEach(item => {
+            const cartItemEl = document.createElement('div');
+            cartItemEl.classList.add('cart-item');
+            cartItemEl.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-item-info">
+                    <h4>${item.name}</h4>
+                    <p>₹${item.price.toFixed(2)}</p>
+                </div>
+                <div class="cart-item-actions">
+                    <div class="quantity-control">
+                        <button class="quantity-btn decrease" data-id="${item.id}" data-action="decrease">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn increase" data-id="${item.id}" data-action="increase">+</button>
+                    </div>
+                    <button class="remove-btn" data-id="${item.id}">Remove</button>
+                </div>
+            `;
+            cartModalBody.appendChild(cartItemEl);
+            total += item.price * item.quantity;
+        });
+
+        cartTotalEl.textContent = `Total: ₹${total.toFixed(2)}`;
+
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', removeFromCart);
+        });
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', updateQuantity);
+        });
+    }
+
+    function renderWishlist() {
+        if (!wishlistModalBody) return;
+
+        if (wishlist.length === 0) {
+            wishlistModalBody.innerHTML = '<p style="text-align: center; color: #666;">Your wishlist is empty.</p>';
+            return;
+        }
+
+        wishlistModalBody.innerHTML = '';
+        wishlist.forEach(item => {
+            const wishlistEl = document.createElement('div');
+            wishlistEl.classList.add('wishlist-item');
+            wishlistEl.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="wishlist-item-info">
+                    <h4>${item.name}</h4>
+                    <p>₹${item.price.toFixed(2)}</p>
+                </div>
+                <div class="wishlist-item-actions">
+                    <button class="move-to-cart-btn" data-id="${item.id}">Move to Cart</button>
+                    <button class="remove-btn" data-id="${item.id}">Remove</button>
+                </div>
+            `;
+            wishlistModalBody.appendChild(wishlistEl);
+        });
+        document.querySelectorAll('.move-to-cart-btn').forEach(btn => btn.addEventListener('click', moveToCart));
+        document.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', removeFromWishlist));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderProducts();
+        updateCartCount();
+        updateWishlistCount();
+    });
+
+    if (cartIcon) {
+        cartIcon.addEventListener('click', () => {
+            renderCart();
+            openModal(cartModal);
+        });
+    }
+
+    if (wishlistIcon) {
+        wishlistIcon.addEventListener('click', () => {
+            renderWishlist();
+            openModal(wishlistModal);
+        });
+    }
+
+    if (cartModalCloseBtn) cartModalCloseBtn.addEventListener('click', () => closeModal(cartModal));
+    if (productModalCloseBtn) productModalCloseBtn.addEventListener('click', () => closeModal(productModal));
+    if (wishlistModalCloseBtn) wishlistModalCloseBtn.addEventListener('click', () => closeModal(wishlistModal));
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const filter = event.target.dataset.filter;
+            const searchTerm = searchInput ? searchInput.value : '';
+            renderProducts(filter, searchTerm);
+        });
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (event) => {
+            const searchTerm = event.target.value;
+            const activeFilterEl = document.querySelector('.filter-options button.active');
+            const activeFilter = activeFilterEl ? activeFilterEl.dataset.filter : 'all';
+            renderProducts(activeFilter, searchTerm);
+        });
+    }
+
+    window.addEventListener('click', (event) => {
+        if (event.target === cartModal) closeModal(cartModal);
+        if (event.target === productModal) closeModal(productModal);
+        if (event.target === wishlistModal) closeModal(wishlistModal);
+    });
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
